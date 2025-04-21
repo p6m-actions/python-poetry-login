@@ -1,0 +1,50 @@
+name: Github Action Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Type of version bump"
+        required: true
+        default: "minor"
+        type: choice
+        options:
+          - minor
+          - major
+
+jobs:
+  test-simple:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Poetry
+        uses: p6m-actions/python-poetry-setup
+
+      - name: Do it
+        uses: ./
+        with:
+          credentials: |
+            dummy=apple:supersecret
+
+  test-with-urls:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Poetry
+        uses: p6m-actions/python-poetry-setup
+
+      - name: Do it
+        uses: ./
+        with:
+          upload-urls: |
+            dummy=https://fred.jfrog.io/artifactory/freddy-frederson-pypi/
+          credentials: |
+            dummy=apple:supersecret

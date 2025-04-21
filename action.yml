@@ -1,34 +1,47 @@
 name: "Python Poetry Login"
-description: "A simple GitHub Action that prints a greeting"
+description: "A Github action that logs in to one or more Python repositories."
 author: "Ali Samji <ali@ybor.ai>"
 
 # Define the inputs for this action
 inputs:
-  who-to-greet:
-    description: "Who to greet"
-    required: true
-    default: "World"
-  message:
-    description: "Custom message to include"
+  upload-urls:
+    description: "A registry=url mapping of registry aliases with their corresponding upload URLs. One per line."
     required: false
-    default: "Hello"
+  credentials:
+    description: "A registry=user:password mapping of registry aliases with their corresponding http-basic auth credentials. One per line."
+    required: true
 
 # Define the outputs for this action
-outputs:
-  time:
-    description: "The time we greeted you"
-    value: ${{ steps.hello.outputs.time }}
+# outputs: {}
 
 # Define the runs configuration
 runs:
   using: "composite"
   steps:
-    - name: Hello step
-      id: hello
+    - name: Configure Poetry repositories
+      id: configure-repos
       shell: bash
       run: |
-        echo "${{ inputs.message }}, ${{ inputs.who-to-greet }}!"
-        echo "time=$(date)" >> $GITHUB_OUTPUT
+        # Configure upload URLs if provided
+        if [ ! -z '${{ inputs.upload-urls }}' ]; then
+          echo '${{ inputs.upload-urls }}' | while IFS='=' read -r registry url; do
+            if [ ! -z "$registry" ] && [ ! -z "$url" ]; then
+              poetry config repositories.$registry $url
+            fi
+          done
+        fi
+
+    - name: Configure Poetry credentials
+      id: configure-auth
+      shell: bash
+      run: |
+        # Configure authentication credentials
+        echo '${{ inputs.credentials }}' | while IFS='=' read -r registry auth; do
+          if [ ! -z "$registry" ] && [ ! -z "$auth" ]; then
+            IFS=':' read -r username password <<< "$auth"
+            poetry config http-basic.$registry "$username" "$password"
+          fi
+        done
 
 # Define the branding for the action in the GitHub Marketplace
 branding:
