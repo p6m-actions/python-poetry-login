@@ -1,0 +1,31 @@
+name: Github Action Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Type of version bump"
+        required: true
+        default: "minor"
+        type: choice
+        options:
+          - minor
+          - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Action Release Action
+        uses: p6m-actions/action-release@v1
+        with:
+          release_type: ${{ github.event.inputs.release_type }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
