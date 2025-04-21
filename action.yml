@@ -28,8 +28,6 @@ runs:
             if [ ! -z "$registry" ] && [ ! -z "$url" ]; then
               poetry config repositories.$registry $url
               echo "Upload URL saved for $registry. $url"
-            else
-              echo "Failed to parse registry name or url. Ensure the format is correct."
             fi
           done
         else
@@ -44,10 +42,10 @@ runs:
         echo '${{ inputs.credentials }}' | while IFS='=' read -r registry auth; do
           if [ ! -z "$registry" ] && [ ! -z "$auth" ]; then
             IFS=':' read -r username password <<< "$auth"
-            poetry config http-basic.$registry "$username" "$password"
-            echo "Credentials saved for $registry."
-          else
-            echo "Failed to parse registry name or credentials. Ensure the format is correct."
+            if [ ! -z "$username" ] && [ ! -z "$password" ]; then
+              poetry config http-basic.$registry "$username" "$password"
+              echo "Credentials saved for $registry."
+            fi
           fi
         done
 

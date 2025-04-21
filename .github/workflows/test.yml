@@ -40,3 +40,22 @@ jobs:
             dummy8=https://fred.jfrog.io/artifactory/cookie-monster-pypi/
           credentials: |
             dummy=apple:supersecret
+
+  test-with-invalid-input:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Poetry
+        uses: p6m-actions/python-poetry-setup@v1
+
+      - name: Do it
+        uses: ./
+        continue-on-error: true
+        with:
+          credentials: |
+            dummy=apple
+            dummy5=banana:supersecret8
