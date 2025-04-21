@@ -19,6 +19,7 @@ jobs:
         with:
           credentials: |
             dummy=apple:supersecret
+            dummy35=banana:supersecret5
 
   test-with-urls:
     runs-on: ubuntu-latest
@@ -36,5 +37,6 @@ jobs:
         with:
           upload-urls: |
             dummy=https://fred.jfrog.io/artifactory/freddy-frederson-pypi/
+            dummy8=https://fred.jfrog.io/artifactory/cookie-monster-pypi/
           credentials: |
             dummy=apple:supersecret

@@ -27,8 +27,13 @@ runs:
           echo '${{ inputs.upload-urls }}' | while IFS='=' read -r registry url; do
             if [ ! -z "$registry" ] && [ ! -z "$url" ]; then
               poetry config repositories.$registry $url
+              echo "Upload URL saved for $registry. $url"
+            else
+              echo "Failed to parse registry name or url. Ensure the format is correct."
             fi
           done
+        else
+          echo "No upload URLs provided. Skipping configuration."
         fi
 
     - name: Configure Poetry credentials
@@ -40,7 +45,12 @@ runs:
           if [ ! -z "$registry" ] && [ ! -z "$auth" ]; then
             IFS=':' read -r username password <<< "$auth"
             poetry config http-basic.$registry "$username" "$password"
+            echo "Credentials saved for $registry."
+          else
+            echo "Failed to parse registry name or credentials. Ensure the format is correct."
           fi
+        else
+          echo "No credentials provided. Skipping configuration."
         done
 
 # Define the branding for the action in the GitHub Marketplace
