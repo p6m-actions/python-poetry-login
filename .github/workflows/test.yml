@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Poetry
-        uses: p6m-actions/python-poetry-setup
+        uses: p6m-actions/python-poetry-setup@main
 
       - name: Do it
         uses: ./
@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Poetry
-        uses: p6m-actions/python-poetry-setup
+        uses: p6m-actions/python-poetry-setup@main
 
       - name: Do it
         uses: ./
