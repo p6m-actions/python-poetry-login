@@ -49,8 +49,6 @@ runs:
           else
             echo "Failed to parse registry name or credentials. Ensure the format is correct."
           fi
-        else
-          echo "No credentials provided. Skipping configuration."
         done
 
 # Define the branding for the action in the GitHub Marketplace
