@@ -1,16 +1,6 @@
-name: Github Action Release
+name: Github Action Integration Tests
 
-on:
-  workflow_dispatch:
-    inputs:
-      release_type:
-        description: "Type of version bump"
-        required: true
-        default: "minor"
-        type: choice
-        options:
-          - minor
-          - major
+on: [push]
 
 jobs:
   test-simple:
