@@ -11,6 +11,8 @@ inputs:
     description: "A registry=user:password mapping of registry aliases with their corresponding http-basic auth credentials. One per line."
     required: true
 
+  # TODO: replace credentials with `http-basic` and `pypi-token` (Bearer) to match the config keywords in poetry.
+
 # Define the outputs for this action
 # outputs: {}
 
