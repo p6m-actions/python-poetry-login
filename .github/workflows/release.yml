@@ -1,31 +1,30 @@
-name: Github Action Release
-# Dummy action.
+name: Release Action
 on:
   workflow_dispatch:
     inputs:
       release_type:
-        description: "Type of version bump"
+        description: "Type of release to create"
         required: true
-        default: "minor"
+        default: "minor_release"
         type: choice
         options:
-          - minor
-          - major
-
+          - "minor_release"
+          - "major_branch"
 jobs:
   release:
     runs-on: ubuntu-latest
+
     permissions:
       contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Action Release Action
-        uses: p6m-actions/action-release@v1
+      - name: Create Release
+        uses: p6m-actions/repository-release@v1
         with:
           release_type: ${{ github.event.inputs.release_type }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
