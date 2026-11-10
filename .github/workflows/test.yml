@@ -9,7 +9,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Poetry
         uses: p6m-actions/python-poetry-setup@v1
@@ -27,7 +27,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Poetry
         uses: p6m-actions/python-poetry-setup@v1
@@ -47,7 +47,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Poetry
         uses: p6m-actions/python-poetry-setup@v1
